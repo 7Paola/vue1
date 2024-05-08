@@ -2,25 +2,6 @@
 
 import { reactive, type Ref, ref, computed, onMounted, watch } from 'vue'
 
-import { h } from 'vue';
-
-// Function to check if a string is a URL
-function isURL(value: string) {
-    const pattern = /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/;
-    return pattern.test(value);
-}
-
-function renderName(value: string) {
-    if (isURL(value)) {
-        return h('a', { href: value, target: '_blank' }, value);
-    } else {
-        return value;
-    }
-}
-
-
-
-
 
 
 type Character = {
@@ -57,13 +38,14 @@ type RickAndMortyData = {
 }
 
 
-const todoId = ref(1)
+const page = ref(1)
+const maxPage = ref(1)
 const todoData = ref<RickAndMortyData>()
 
 async function fetchData() {
     // todoData.value = null
     const res = await fetch(
-        `https://rickandmortyapi.com/api/character`
+        `https://rickandmortyapi.com/api/character/?page=${page.value}`
     )
 
     // const resData: RickAndMortyData = await res.json()
@@ -76,44 +58,64 @@ async function fetchData() {
     console.log('Qualcosa', todoData.value?.info)
     console.log('Qualcosa2', todoData.value!.info)
     console.log('Qualcosa3', todoData.value?.info.next)
+    console.log('Pagine', todoData.value?.info.pages)
+
+    maxPage.value = todoData.value?.info.pages || 1
+
 }
 
 fetchData()
-
-// watch(todoId, fetchData)
+watch(page, fetchData)
 
 // onMounted(fetchData)
+
+function changePage() {
+    // Ensure page is within the minimum and maximum values
+    if (page.value < 1) {
+        page.value = 1;
+    } else if (page.value > todoData.value!.info.pages) {
+        page.value = todoData.value!.info.pages;
+    }
+}
 
 </script>
 
 <template>
 
-
     <div>
-        <p>Prova</p>
-        {{ renderName('https://rickandmortyapi.com/api/episode/1') }}
-        <p>Prova - FINE</p>
 
         <h2>10 personaggi in cerca d'autore</h2>
 
-        <p>Todo id: {{ todoId }}</p>
-        <button @click="todoId++">Fetch del todo successivo</button>
+        <p>Page: {{ page }} of {{ todoData?.info.pages }}</p>
+        <!-- <button v-if="1 < page" @click="page--">Page--</button> -->
+        <button :disabled="!(page > 1)" @click="page--">Page--</button>
+        <button :disabled="!(page < maxPage)" @click="page++">Page++</button>
+        <input type="number" v-model.number="page" :max="maxPage" @input="changePage">
+
         <p v-if="!todoData">Caricamento in corso...</p>
         <!-- <pre v-else>{{ todoData }}</pre> -->
-        <ol v-else>
+        <ol :start="1 + 20 * (page - 1)" v-else>
             <li v-for="character in todoData?.results" :key="character.id" class="character-list">
                 <h3><a :href="character.url">{{ character.name }}</a></h3>
                 <img :src="character.image" alt=""><br>
                 <ul>
                     <li v-for="(val, key) in character" :key="key">
-                        {{ key }} -
-                        <template v-if="Array.isArray(val)">
-                            <ul>
-                                <li v-for="(item, index) in val" :key="index">{{ item }}</li>
-                            </ul>
+                        <template v-if="key != 'episode'">
+                            {{ key }} -
+                            <template v-if="Array.isArray(val)">
+                                <ul>
+                                    <li v-for="(item, index) in val" :key="index">{{ item }}</li>
+                                </ul>
+                            </template>
+                            <template v-else>
+                                {{ val }}
+                            </template>
                         </template>
                         <template v-else>
-                            {{ val }}
+                            Episodi -
+                            <ul>
+                                <li v-for="(item, index) in val" :key="index"><a :href="item">{{ item }}</a></li>
+                            </ul>
                         </template>
                     </li>
                 </ul>

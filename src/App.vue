@@ -18,6 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/perche">Perchè</RouterLink>
         <RouterLink to="/si">Si</RouterLink>
         <RouterLink to="/ApiRicky">Ricky&Morty</RouterLink>
+        <RouterLink to="/test">Test</RouterLink>
       </nav>
 
     </div>

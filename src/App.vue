@@ -18,6 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/perche">Perchè</RouterLink>
         <RouterLink to="/si">Si</RouterLink>
         <RouterLink to="/ApiRicky">Ricky&Morty</RouterLink>
+        <RouterLink to="/remcards">R&M Cards</RouterLink>
         <RouterLink to="/test">Test</RouterLink>
       </nav>
 
@@ -29,6 +30,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterView />
   </Suspense>
 </template>
+
+
 
 <style scoped>
 header {
@@ -42,10 +45,16 @@ header {
 }
 
 nav {
-  width: 100%;
+  /* mod */
+  /* width: 100%; */
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+}
+
+/* mod */
+nav a {
+  text-decoration: none;
 }
 
 nav a.router-link-exact-active {
@@ -54,6 +63,11 @@ nav a.router-link-exact-active {
 
 nav a.router-link-exact-active:hover {
   background-color: transparent;
+}
+
+/* mod */
+nav a:visited {
+  color: var(--color-text);
 }
 
 nav a {

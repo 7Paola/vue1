@@ -4,7 +4,7 @@ import { reactive, type Ref, ref, computed, onMounted, watch } from 'vue'
 
 
 
-type Character = {
+export type Character = {
     id: number;
     name: string;
     status: string;
@@ -25,21 +25,21 @@ type Character = {
     created: string;
 }
 
-type Info = {
+export type Info = {
     count: number;
     pages: number;
     next: string | null;
     prev: string | null;
 }
 
-type RickAndMortyData = {
+export type RickAndMortyData = {
     info: Info;
     results: Character[];
 }
 
 
-const page = ref(1)
-const maxPage = ref(1)
+const page = ref<number>(1)
+const maxPage = ref<number>(1)
 const todoData = ref<RickAndMortyData>()
 
 async function fetchData() {
@@ -94,7 +94,7 @@ function changePage() {
 
         <p v-if="!todoData">Caricamento in corso...</p>
         <!-- <pre v-else>{{ todoData }}</pre> -->
-        <ol :start="1 + 20 * (page - 1)" v-else>
+        <ol v-else :start="1 + 20 * (page - 1)">
             <li v-for="character in todoData?.results" :key="character.id" class="character-list">
                 <h3><a :href="character.url">{{ character.name }}</a></h3>
                 <img :src="character.image" alt=""><br>

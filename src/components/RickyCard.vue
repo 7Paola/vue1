@@ -1,6 +1,8 @@
 <script setup lang="ts">
 
-const { id, name, url } = defineProps<{ id: number; name: string; url: string }>();
+import { type Character } from "./ApiRicky.vue";
+
+const { id, name, url } = defineProps<{ id: number; name: string; url: string, character: Character }>();
 
 </script>
 
@@ -20,11 +22,20 @@ const { id, name, url } = defineProps<{ id: number; name: string; url: string }>
                 <h2>{{ name }}</h2>
                 <img :src="url" alt=""><br>
                 <!-- <p>{{ id }} - {{ name }}</p> -->
-                <a :href="`https://rickandmortyapi.com/api/character/${id}`">{{ name }} - details</a>
             </div>
             <div class="flip-card-back">
-                <h1>{{ name }}</h1>
-                <p>ID {{ id }}</p>
+                <!-- <h1>{{ name }}</h1> -->
+                <h2><a :href="`https://rickandmortyapi.com/api/character/${id}`">{{ name }}</a></h2>
+                <br>
+                <p>ID: {{ id }}</p>
+                <p>status: {{ character.status }}</p>
+                <p>species: {{ character.species }}</p>
+                <p>type: {{ character.type }}</p>
+                <p>gender: {{ character.gender }}</p>
+                <!-- <p>origin {{ character.origin }}</p> -->
+                <br>
+                <img class="image-small" :src="character.image" alt="">
+                <br>
             </div>
         </div>
     </div>
@@ -43,6 +54,7 @@ const { id, name, url } = defineProps<{ id: number; name: string; url: string }>
 
 a {
     text-decoration: none;
+    color: white;
 }
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
@@ -50,8 +62,9 @@ a {
     background-color: transparent;
     width: 300px;
     height: 400px;
-    border: 1px solid #f1f1f1;
+    /* border: 1px solid #f1f1f1; */
     perspective: 1000px;
+    margin: 20px;
     /* Remove this if you don't want the 3D effect */
 }
 
@@ -92,5 +105,9 @@ a {
     background-color: dodgerblue;
     color: white;
     transform: rotateY(180deg);
+}
+
+.image-small {
+    height: 40%
 }
 </style>

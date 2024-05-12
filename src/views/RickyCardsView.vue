@@ -55,8 +55,13 @@ function changePage() {
 
     <div class="cards-container">
         <!-- <RickyCard :id="1" :name="'Pippo'" :url="'https://rickandmortyapi.com/api/character/avatar/1.jpeg'"></RickyCard> -->
-        <RickyCard v-for="character in pageData?.results" :key="character.id" :id="character.id" :name="character.name"
-            :url="character.image">
+        <RickyCard v-for="character in pageData?.results" 
+        :key="character.id" 
+        :id="character.id" 
+        :name="character.name"
+        :url="character.image"
+        :character="character"
+        >
         </RickyCard>
     </div>
 </template>

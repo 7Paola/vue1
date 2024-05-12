@@ -14,9 +14,9 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/pippo">Pippo</RouterLink>
-        <RouterLink to="/perche">Perchè</RouterLink>
-        <RouterLink to="/si">Si</RouterLink>
+        <!-- <RouterLink to="/pippo">Pippo</RouterLink> -->
+        <!-- <RouterLink to="/perche">Perchè</RouterLink> -->
+        <!-- <RouterLink to="/si">Si</RouterLink> -->
         <RouterLink to="/ApiRicky">Ricky&Morty</RouterLink>
         <RouterLink to="/remcards">R&M Cards</RouterLink>
         <RouterLink to="/test">Test</RouterLink>
